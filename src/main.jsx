@@ -31,12 +31,6 @@ const featureSlides = [
   }
 ];
 
-const stories = [
-  { tag: 'RÁDIO', title: 'Trilha sonora para evoluir', text: 'Entre no clima da sua próxima jornada.', icon: AudioLines, tone: 'violet' },
-  { tag: 'CLÃS', title: 'Encontre seu grupo', text: 'Conheça outros caçadores da comunidade.', icon: Users, tone: 'blue' },
-  { tag: 'EVENTOS', title: 'O calendário da guilda', text: 'Desafios e encontros em preparação.', icon: CalendarDays, tone: 'rose' }
-];
-
 const forums = [
   { name: 'Estratégias & builds', desc: 'Compartilhe suas melhores combinações', icon: Swords, tone: 'violet', tag: 'GUIAS' },
   { name: 'Dúvidas de evolução', desc: 'Peça ajuda para sua próxima etapa', icon: Sparkles, tone: 'blue', tag: 'AJUDA' },
@@ -158,9 +152,6 @@ function App() {
         <div className="dashboard-grid">
           <div className="main-column">
             <section className="featured-panel" id="noticias">
-              <img className="featured-image" src="/leveling-portal.webp" alt="Arte em pixel art de um caçador diante de uma fortaleza e portal violeta" />
-              <div className="featured-scrim" />
-              <div className="featured-topline"><span className="feature-edition">LEVELING RADIO <b>{String(activeSlide + 1).padStart(2, '0')}</b></span></div>
               <div
                 className="featured-copy"
                 onMouseEnter={() => setFeaturePaused(true)}
@@ -194,17 +185,6 @@ function App() {
                     >{slide.tab}</button>
                   ))}
                 </div>
-              </div>
-              <div className="feature-bottom"><span><i className="live-dot" /> PORTAL DA COMUNIDADE</span><span>PIXEL FANTASY · ROXO / AZUL</span></div>
-              <div className="story-rail">
-                {stories.map((story) => {
-                  const Icon = story.icon;
-                  return <button className="story-card" key={story.title} onClick={() => comingSoon(story.title)}>
-                    <span className={'story-icon ' + story.tone}><Icon size={20} /></span>
-                    <span className="story-content"><small>{story.tag}</small><b>{story.title}</b><em>{story.text}</em></span>
-                    <ChevronRight size={15} className="story-arrow" />
-                  </button>;
-                })}
               </div>
             </section>
 
