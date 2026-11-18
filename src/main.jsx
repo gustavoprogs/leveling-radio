@@ -153,7 +153,7 @@ function App() {
           <div className="main-column">
             <section className="featured-panel" id="noticias">
               <div
-                className="featured-copy"
+                className={`featured-copy featured-copy--${activeFeature.id}`}
                 onMouseEnter={() => setFeaturePaused(true)}
                 onMouseLeave={() => setFeaturePaused(false)}
                 onFocusCapture={() => setFeaturePaused(true)}
