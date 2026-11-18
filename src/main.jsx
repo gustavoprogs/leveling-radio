@@ -105,10 +105,15 @@ function App() {
             </div>
             <div className="hero-proof"><span><i className="live-dot" /> PORTAL EM CONSTRUÇÃO</span><b /> <span>FEITO PARA A COMUNIDADE</span></div>
           </div>
-          <div className="hero-art" aria-label="Portal mágico abstrato">
-            <div className="orbit orbit-a" /><div className="orbit orbit-b" />
-            <div className="portal-ring"><div className="portal-core"><span>ᛟ</span></div></div>
+          <div className="hero-art" aria-label="Caçador das sombras diante de um portal arcano">
+            <img
+              className="hero-art-image"
+              src="/hero-leveling.jpg"
+              alt="Caçador encapuzado diante de um portal azul e violeta, acompanhado por guerreiros das sombras"
+            />
+            <div className="hero-art-vignette" />
             <span className="hero-rune rune-one">✧</span><span className="hero-rune rune-two">◇</span><span className="hero-rune rune-three">ᚷ</span>
+            <div className="hero-art-stamp"><span>PORTAL ATIVO</span><b>RANK S</b></div>
             <div className="hero-caption"><span>01 / 05</span><b>O DESPERTAR COMEÇA AQUI</b></div>
           </div>
           <div className="hero-bottom-line"><span>LEVELING RADIO</span><span>EST. 2026</span><span>TRANSMITINDO PARA ALÉM DAS DUNGEONS</span></div>
