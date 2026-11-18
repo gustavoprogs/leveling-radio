@@ -2,13 +2,34 @@ import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   Activity, AudioLines, ArrowRight, ArrowUpRight, Bell, CalendarDays,
-  ChevronRight, CircleHelp, Crown, Disc3, Flame, Gamepad2, Headphones,
+  ChevronLeft, ChevronRight, CircleHelp, Crown, Disc3, Flame, Gamepad2, Headphones,
   LogIn, Menu, MessageCircle, Mic2, Play, Radio, Search, Shield,
   Sparkles, Swords, Trophy, Users, Volume2, VolumeX, X, Zap
 } from 'lucide-react';
 import './styles.css';
 
 const streamUrl = import.meta.env.VITE_RADIO_STREAM_URL || '';
+
+const featureSlides = [
+  {
+    id: 'novidades', tab: 'NOVIDADES', eyebrow: 'NOVIDADES DA COMUNIDADE',
+    title: 'O que há de novo', highlight: 'por aqui.',
+    description: 'Fique por dentro das atualizações, notícias e histórias do universo Leveling Idle 2D.',
+    cta: 'ACOMPANHAR NOVIDADES', target: null
+  },
+  {
+    id: 'eventos', tab: 'EVENTOS', eyebrow: 'AGENDA DOS CAÇADORES',
+    title: 'A próxima aventura', highlight: 'já tem data.',
+    description: 'Confira os próximos encontros, desafios e atividades preparados para a comunidade.',
+    cta: 'VER EVENTOS', target: 'eventos'
+  },
+  {
+    id: 'ranking', tab: 'RANKING', eyebrow: 'DESTAQUES DO RANKING',
+    title: 'Quem lidera entre', highlight: 'os caçadores?',
+    description: 'Veja quem está se destacando e acompanhe a evolução dos melhores caçadores.',
+    cta: 'VER RANKING', target: 'ranking'
+  }
+];
 
 const stories = [
   { tag: 'RÁDIO', title: 'Trilha sonora para evoluir', text: 'Entre no clima da sua próxima jornada.', icon: AudioLines, tone: 'violet' },
@@ -50,6 +71,8 @@ function App() {
   const [volume, setVolume] = useState(72);
   const [menuOpen, setMenuOpen] = useState(false);
   const [toast, setToast] = useState('');
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [featurePaused, setFeaturePaused] = useState(false);
 
   useEffect(() => {
     if (!audioRef.current) return;
@@ -83,7 +106,26 @@ function App() {
     }
   }
 
+  useEffect(() => {
+    if (featurePaused) return;
+    const timer = window.setInterval(() => {
+      setActiveSlide((current) => (current + 1) % featureSlides.length);
+    }, 6500);
+    return () => window.clearInterval(timer);
+  }, [activeSlide, featurePaused]);
+
   const comingSoon = (feature) => setToast(feature + ': recurso planejado para uma próxima etapa.');
+  const activeFeature = featureSlides[activeSlide];
+  const changeFeatureSlide = (direction) => {
+    setActiveSlide((current) => (current + direction + featureSlides.length) % featureSlides.length);
+  };
+  const openActiveFeature = () => {
+    if (!activeFeature.target) {
+      comingSoon('Página de novidades');
+      return;
+    }
+    document.getElementById(activeFeature.target)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   return (
     <div className="app-shell">
@@ -118,12 +160,40 @@ function App() {
             <section className="featured-panel" id="noticias">
               <img className="featured-image" src="/leveling-portal.webp" alt="Arte em pixel art de um caçador diante de uma fortaleza e portal violeta" />
               <div className="featured-scrim" />
-              <div className="featured-topline"><span className="feature-label"><i /> DESTAQUE DA COMUNIDADE</span><span className="feature-edition">LEVELING RADIO <b>01</b></span></div>
-              <div className="featured-copy">
-                <span className="featured-kicker">O MUNDO DOS CAÇADORES</span>
-                <h1>A próxima jornada<br /><em>começa aqui.</em></h1>
-                <p>Entre na comunidade, descubra novas histórias e leve a trilha sonora da Leveling Radio para cada aventura.</p>
-                <button className="feature-cta" onClick={() => document.getElementById('comunidade')?.scrollIntoView({ behavior: 'smooth' })}>EXPLORAR COMUNIDADE <ArrowRight size={16} /></button>
+              <div className="featured-topline"><span className="feature-label"><i /> DESTAQUE DA COMUNIDADE</span><span className="feature-edition">LEVELING RADIO <b>{String(activeSlide + 1).padStart(2, '0')}</b></span></div>
+              <div
+                className="featured-copy"
+                onMouseEnter={() => setFeaturePaused(true)}
+                onMouseLeave={() => setFeaturePaused(false)}
+                onFocusCapture={() => setFeaturePaused(true)}
+                onBlurCapture={(event) => {
+                  if (!event.currentTarget.contains(event.relatedTarget)) setFeaturePaused(false);
+                }}
+              >
+                <div className="feature-slide-meta">
+                  <span className="featured-kicker">{activeFeature.eyebrow}</span>
+                  <div className="feature-slide-controls">
+                    <button type="button" onClick={() => changeFeatureSlide(-1)} aria-label="Destaque anterior"><ChevronLeft size={14} /></button>
+                    <span>{String(activeSlide + 1).padStart(2, '0')} / 03</span>
+                    <button type="button" onClick={() => changeFeatureSlide(1)} aria-label="Próximo destaque"><ChevronRight size={14} /></button>
+                  </div>
+                </div>
+                <div className="feature-slide-body" key={activeFeature.id} aria-live="polite">
+                  <h1>{activeFeature.title}<br /><em>{activeFeature.highlight}</em></h1>
+                  <p>{activeFeature.description}</p>
+                  <button className="feature-cta" onClick={openActiveFeature}>{activeFeature.cta} <ArrowRight size={16} /></button>
+                </div>
+                <div className="feature-slide-tabs" role="group" aria-label="Escolher destaque">
+                  {featureSlides.map((slide, index) => (
+                    <button
+                      type="button"
+                      key={slide.id}
+                      className={activeSlide === index ? 'active' : ''}
+                      aria-pressed={activeSlide === index}
+                      onClick={() => setActiveSlide(index)}
+                    >{slide.tab}</button>
+                  ))}
+                </div>
               </div>
               <div className="feature-bottom"><span><i className="live-dot" /> PORTAL DA COMUNIDADE</span><span>PIXEL FANTASY · ROXO / AZUL</span></div>
               <div className="story-rail">
@@ -186,7 +256,7 @@ function App() {
               <div className="widget-footnote">Grupos ilustrativos · sistema de clãs em planejamento</div>
             </section>
 
-            <section className="widget events-widget">
+            <section className="widget events-widget" id="eventos">
               <div className="widget-heading"><div><h2>Próximos eventos</h2><span className="widget-count">AGENDA DA GUILDA</span></div><button className="round-arrow" onClick={() => comingSoon('Calendário de eventos')} aria-label="Ver eventos"><ArrowUpRight size={16} /></button></div>
               <div className="event-list">
                 {events.map((event) => <button className="event-row" key={event.title} onClick={() => comingSoon(event.title)}>
