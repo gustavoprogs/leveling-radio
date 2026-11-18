@@ -160,7 +160,7 @@ function App() {
             <section className="featured-panel" id="noticias">
               <img className="featured-image" src="/leveling-portal.webp" alt="Arte em pixel art de um caçador diante de uma fortaleza e portal violeta" />
               <div className="featured-scrim" />
-              <div className="featured-topline"><span className="feature-label"><i /> DESTAQUE DA COMUNIDADE</span><span className="feature-edition">LEVELING RADIO <b>{String(activeSlide + 1).padStart(2, '0')}</b></span></div>
+              <div className="featured-topline"><span className="feature-edition">LEVELING RADIO <b>{String(activeSlide + 1).padStart(2, '0')}</b></span></div>
               <div
                 className="featured-copy"
                 onMouseEnter={() => setFeaturePaused(true)}
