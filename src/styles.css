@@ -484,3 +484,50 @@
   .featured-panel .feature-slide-tabs{gap:6px!important;padding-top:11px!important}
   .featured-panel .feature-slide-tabs button{min-height:35px!important;font-size:7px!important}
 }
+
+
+/* Events slide artwork */
+.featured-panel > .featured-copy.featured-copy--eventos::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  border-radius:inherit;
+  background-image:
+    linear-gradient(90deg,rgba(13,10,24,.99) 0%,rgba(13,10,24,.96) 30%,rgba(13,10,24,.82) 51%,rgba(13,10,24,.38) 100%),
+    radial-gradient(ellipse at 83% 52%,rgba(122,72,171,.19),transparent 58%),
+    url("/event-redragon.webp");
+  background-repeat:no-repeat;
+  background-size:100% 100%,100% 100%,auto 90%;
+  background-position:center,center,right 3% center;
+  opacity:1;
+}
+.featured-panel > .featured-copy.featured-copy--eventos::after{
+  opacity:.18!important;
+}
+.featured-panel .featured-copy--eventos .feature-slide-body{
+  max-width:64%!important;
+}
+@media(max-width:820px){
+  .featured-panel > .featured-copy.featured-copy--eventos::before{
+    background-size:100% 100%,100% 100%,auto 82%;
+    background-position:center,center,right 0 center;
+  }
+  .featured-panel .featured-copy--eventos .feature-slide-body{
+    max-width:68%!important;
+  }
+}
+@media(max-width:600px){
+  .featured-panel > .featured-copy.featured-copy--eventos::before{
+    background-image:
+      linear-gradient(90deg,rgba(13,10,24,.96) 0%,rgba(13,10,24,.83) 52%,rgba(13,10,24,.48) 100%),
+      radial-gradient(ellipse at 84% 55%,rgba(122,72,171,.16),transparent 60%),
+      url("/event-redragon.webp");
+    background-size:100% 100%,100% 100%,auto 68%;
+    background-position:center,center,right 0 bottom 3%;
+  }
+  .featured-panel .featured-copy--eventos .feature-slide-body{
+    max-width:100%!important;
+  }
+}
